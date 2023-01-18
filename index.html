@@ -2,50 +2,36 @@
 <html>
 <head>
 	<title>Tic Tac Toe</title>
-	<script>
-		function generateGame(){
-
-			// Getting Variables
-			var game_type = document.getElementById('game_type').value;
-
-			// Clearing board for new game
-			document.getElementById('game-board').innerHTML = '';
-
-			// Generating board
-			for (x=0; x<game_type; x++){
-				for (y=0; y<game_type; y++) {
-					var button = document.createElement("input");
-					button.setAttribute("value", '');
-					button.setAttribute("name", 'grid');
-					button.setAttribute("class", 'grid-box');
-					button.setAttribute("type", 'button');
-					//button.setAttribute("onclick", alert("blabla"));
-					document.getElementById('game-board').appendChild(button);
-				}
-				var breakline = document.createElement("br");
-					document.getElementById('game-board').appendChild(breakline);
-			}
-
-		}
-	</script>
+	<script type="text/javascript" src="main.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,700;1,100&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="game-area">
+	<div class="game-area">
+        <img src="title.png">
+		<div class="game-options">
+			<select name="game_type" id="game_type" onchange="resetAIButton()">
+				<option value="3">3 x 3 Board</option>
+				<option value="4">4 x 4 Board</option>
+				<option value="5">5 x 5 Board</option>
+			</select>
+			
+			<input type="checkbox" name="robot" checked="true" id="robot"> AI Mode? <br/>
+			<input type="submit" value="Start Game" onclick="generateGame()" class="submit-button"> 
+		</div>
 
-	<select name="game_type" id="game_type">
-		<option value="3">3 x 3</option>
-		<option value="4">4 x 4</option>
-		<option value="5">5 x 5</option>
-	</select>
-	<input type="submit" name="Start Game" onclick="generateGame()">
+		<div id="game-board" class="game-board">
+			Select a mode, then press "Start Game"
+		</div>
+		<div class="score-card">
+			Player X Score : <span id="score-X">0</span> <br>
+			Player Y Score : <span id="score-Y">0</span>
+		</div>
 
-
-	<div id="game-board">
-		test
 	</div>
-
-</div>
 
 </body>
 </html>
