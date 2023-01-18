@@ -77,10 +77,14 @@ a {
 }
 
 .score-card span {
-	font-weight: normal;
+	font-weight: bold;
 }
 
 img {
     background-color: white;
     background-image: url("title.png");
+}
+
+.submit-button {
+    font-weight: bold;
 }

@@ -1,10 +1,3 @@
-
-var turn = 'X';
-var game_type = 3;
-var total_turns = 0;
-var robot = true;
-var finished = false;
-
 var selections = new Array(); 
 	selections['X'] = new Array();
 	selections['Y'] = new Array();
@@ -12,6 +5,12 @@ var selections = new Array();
 var scores = new Array(); 
 	scores['X'] = 0;
 	scores['Y'] = 0;
+
+var turn = 'X';
+var game_type = 3;
+var total_turns = 0;
+var robot = true;
+var finished = false;
 
 // 게임 재시작
 function resetParams() {
@@ -25,38 +24,24 @@ function resetParams() {
 	selections['Y'] = new Array();
 }
 
-
-// 공수 전환
-function changeTurn(){
-	if (turn == 'X') turn = 'Y';
-	else turn = 'X';
-}
-
-
 // 승자 패턴
 function winnerPatterns() {
 	var wins = Array();
 
 	// 3 x 3
-	if (game_type==3) wins = [ 
-								[11,12,13], [21,22,23], [31,32,33],
+	if (game_type==3) wins = [  [11,12,13], [21,22,23], [31,32,33],
 						 		[11,21,31], [12,22,32], [13,23,33], 
-						 		[11,22,33], [13,22,31]
-						 	];
+						 		[11,22,33], [13,22,31] ];
 
 	// 4 x 4
-	if (game_type==4) wins = [ 
-								[11,12,13,14], [21,22,23,24], [31,32,33,34], [41,42,43,44],
+	if (game_type==4) wins = [  [11,12,13,14], [21,22,23,24], [31,32,33,34], [41,42,43,44],
 						 		[11,21,31,41], [12,22,32,42], [13,23,33,43], [14,24,34,44],
-						 		[14,23,32,41], [11,22,33,44]
-						 	];
+						 		[14,23,32,41], [11,22,33,44] ];
 
 	// 5 x 5
-	if (game_type==5) wins = [ 
-								[11,12,13,14,15], [21,22,23,24,25], [31,32,33,34,35], [41,42,43,44,45], [51,52,53,54,55],
+	if (game_type==5) wins = [  [11,12,13,14,15], [21,22,23,24,25], [31,32,33,34,35], [41,42,43,44,45], [51,52,53,54,55],
 						 		[11,21,31,41,51], [12,22,32,42,52], [13,23,33,43,53], [14,24,34,44,54], [15,25,35,45,55],
-						 		[11,22,33,44,55], [15,24,33,42,51]
-						 	];
+						 		[11,22,33,44,55], [15,24,33,42,51] ];
 
 	return wins
 }
@@ -79,22 +64,20 @@ function DefaultRobotPatterns() {
 }
 
 
-// 위너 확인
+// 승자 확인
 function checkWinner() {
-
 	var selected = selections[turn].sort();
 	var win_patterns = winnerPatterns();
 
 	finished = false;
 	for (var x=0; x < win_patterns.length; x++) {
-		
 		if (finished != true) { 
 			finished = isWinner(win_patterns[x], selections[turn]);
 
 			if ( finished === true ) {
 				scoreUpdate(turn);  // 기록 업데이트
 				disableAllBoxes();  // 비활성화
-				alert('Player '+turn+' Win');
+				alert('Player '+ turn +' Win');   // 팝업 창으로 승자 알려주기
 				break;
 			} 
 		}
@@ -124,10 +107,8 @@ function isWinner(win_pattern, selections){
 	return false;
 }
 
-
 // 게임이 끝난 후 비활성
 function disableAllBoxes() {
-
 	var elements = document.getElementsByClassName("grid-box");
 	for (var i = 0; i < elements.length; i++) {
 	  elements[i].disabled =true;
@@ -135,13 +116,11 @@ function disableAllBoxes() {
 
 }
 
-
 // 재시작할 때 AI 모드 활성화
 function resetAIButton() {
 	var checkbox = document.getElementById('robot'); 	
 	checkbox.checked = 'checked';
 }
-
 
 // 새 게임 
 function generateGame(){
@@ -176,8 +155,13 @@ function generateGame(){
 
 }
 
-function markCheck(obj){
+// 공수 전환
+function changeTurn(){
+	if (turn == 'X') turn = 'Y';
+	else turn = 'X';
+}
 
+function markCheck(obj){
 	obj.value = turn;
 	total_turns++;
 
@@ -217,7 +201,6 @@ function autoTurn(again=false) {
 }
 
 function getAutoTurnPattern() {
-
 	var pattern = [];
 	pattern = getMostNearestPattern('Y');
 	if (pattern.length <= 0) {
@@ -226,13 +209,11 @@ function getAutoTurnPattern() {
 			pattern = DefaultRobotPatterns();
 		}
 	}
-
 	return pattern;
-	
 }
 
+// 패턴 가져오기
 function getMostNearestPattern(turn){
-
 	var matches = 0;
 	var selected = selections[turn].sort();
 	var win_patterns = winnerPatterns();
@@ -240,12 +221,10 @@ function getMostNearestPattern(turn){
 	finished = false;
 	for (var x=0; x < win_patterns.length; x++) {
 		var intersected = intersectionArray(selected, win_patterns[x]);
-
 		if ( intersected.length==(win_patterns[x].length-1) ) { // win_patterns[x]
 			for (var y=0; y < win_patterns[x].length; y++) {
 				obj = document.getElementById(win_patterns[x][y]);
-				if (obj.value == '' || obj.value == ' ') {
-					// Return pattern if got an empty; otherwise will match others 
+				if (obj.value == '' || obj.value == ' ') {  // 비었을 경우
 					return win_patterns[x];	
 				}
 			}
@@ -256,7 +235,6 @@ function getMostNearestPattern(turn){
 }
 
 function intersectionArray(x, y){
-
     var response = [];
     for (var i = 0; i < x.length; i++) {
         for (var z = 0; z < y.length; z++) {
@@ -267,9 +245,7 @@ function intersectionArray(x, y){
         }
     }
     return response;
-
 }
-
 
 // 팝업 창 생기도록 설정
 function scoreUpdate(turn){
