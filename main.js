@@ -47,20 +47,20 @@ function winnerPatterns() {
 }
 
 
-// 로봇 패턴 배열
-function DefaultRobotPatterns() {
-	var robot_turns = Array();
+// AI 패턴 배열
+function AiPatterns() {
+	var ai_turns = Array();
 
 	// 3 x 3
-	if (game_type==3) robot_turns = [22,11,33,13,21,23,12,32,31];
+	if (game_type==3) ai_turns = [22,11,33,13,21,23,12,32,31];
 
 	// 4 x 4
-	if (game_type==4) robot_turns = [11,22,33,44,14,13,12,21,31,41,42,43,24,34,32,23];
+	if (game_type==4) ai_turns = [11,22,33,44,14,13,12,21,31,41,42,43,24,34,32,23];
 
 	// 5 x 5
-	if (game_type==5) robot_turns = [11,22,33,44,55,15,14,13,12,51,41,31,21,35,45,25,53,52,54,42,43,32,34,23,24];
+	if (game_type==5) ai_turns = [11,22,33,44,55,15,14,13,12,51,41,31,21,35,45,25,53,52,54,42,43,32,34,23,24];
 
-	return robot_turns
+	return ai_turns
 }
 
 
@@ -76,7 +76,7 @@ function checkWinner() {
 
 			if ( finished === true ) {
 				scoreUpdate(turn);  // 기록 업데이트
-				disableAllBoxes();  // 비활성화
+				disableAll();  // 비활성화
 				alert('Player '+ turn +' Win');   // 팝업 창으로 승자 알려주기
 				break;
 			} 
@@ -87,7 +87,7 @@ function checkWinner() {
 	if ( ( total_turns == (game_type*game_type) ) && finished === false ) { 
 		alert("It's a tie");
 		finished = true;
-		disableAllBoxes(); 
+		disableAll(); 
 	}
 }
 
@@ -108,7 +108,7 @@ function isWinner(win_pattern, selections){
 }
 
 // 게임이 끝난 후 비활성
-function disableAllBoxes() {
+function disableAll() {
 	var elements = document.getElementsByClassName("grid-box");
 	for (var i = 0; i < elements.length; i++) {
 	  elements[i].disabled =true;
@@ -123,7 +123,7 @@ function resetAIButton() {
 }
 
 // 새 게임 
-function generateGame(){
+function newGame(){
 	resetParams();  // 모든 파라미터 재설정
 	game_type = Number(document.getElementById('game_type').value);
 
@@ -186,7 +186,7 @@ function autoTurn(again=false) {
 	if (turn === 'X' || finished === true) return false;
 
 	var robot_pattern = '';
-	if (again==true) robot_pattern = DefaultRobotPatterns();
+	if (again==true) robot_pattern = AiPatterns();
 	else robot_pattern = getAutoTurnPattern(); 
 
 	for(var x = 0; x < robot_pattern.length; x++) {
@@ -206,7 +206,7 @@ function getAutoTurnPattern() {
 	if (pattern.length <= 0) {
 		pattern = getMostNearestPattern('X');
 		if (pattern.length <= 0) {
-			pattern = DefaultRobotPatterns();
+			pattern = AiPatterns();
 		}
 	}
 	return pattern;
