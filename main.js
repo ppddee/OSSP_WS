@@ -136,7 +136,7 @@ function newGame(){
 	// 생성
 	for (var row = 1; row <= game_type; row++){
 		for (var col = 1; col <= game_type; col++) {
-			var unique_name = 'grid-'+row+'-'+col;
+			var unique_name = 'grid-' + row+'-' + col;
 			var unique_id = row+''+col;
 			var button = document.createElement("input");
 
